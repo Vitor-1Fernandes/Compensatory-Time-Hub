@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect} from "react";
+import axios from "axios";
 
 import CardTime from "../components/CardTime";
 import DailyCard from "../components/DailyCard";
@@ -7,6 +8,15 @@ import Navbar from "../components/Navbar";
 function Home() {
 
     const [workDays, setWorkDays] = useState([{ id: 1, name: "Neo Quimica Arena", date: "27 de fevereiro, 2026", time: "+2h30", project: "Projeto Alfa" }, { id: 1, name: "Neo Quimica Arena", date: "27 de fevereiro, 2026", time: "+2h30", project: "Projeto Alfa", }])
+
+    const fetchAPI = async () => {
+        const response = await axios.get("http://localhost:8080/api")
+        console.log(response.data.day)
+    };
+
+    useEffect(() => {
+        fetchAPI();
+    }, []);
 
     return (
         <div className="min-h-screen w-screen">

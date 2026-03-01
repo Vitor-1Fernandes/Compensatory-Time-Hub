@@ -1,10 +1,45 @@
+import { useNavigate } from 'react-router-dom'
+import { useState } from 'react'
+
+import axios from "axios";
+
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faClock } from "@fortawesome/free-solid-svg-icons"
 import { faUser } from "@fortawesome/free-solid-svg-icons"
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
 import { faLock } from "@fortawesome/free-solid-svg-icons"
 
+
 function Login() {
+
+    const navigate = useNavigate();
+
+    const [email, setEmail] = useState("")
+    const [senha, setSenha] = useState("")
+
+    const entrar = async (event) => {
+        event.preventDefault();
+        try {
+            const response = await axios.post("http://localhost:8080/api/login", {
+                email: email,
+                senha: senha
+            });
+            console.log(response.data)
+            if(response.data.mensagem === true){
+                navigate("/home");
+            }
+            else{
+                alert(response.data.erro);
+            }
+        }
+        catch (error) {
+            console.error("Erro na conexão:", error);
+            alert("O servidor está desligado ou houve um erro!");
+        }
+
+
+    };
+
     return (
         <div className="min-h-screen w-screen bg-slate-800 flex justify-center items-start py-30">
 
@@ -16,29 +51,29 @@ function Login() {
                     <h2 className='text-sm'>Gerencie suas horas de forma simples</h2>
                 </header>
 
-                <section className='flex flex-col w-full gap-7 border border-slate-500 rounded-lg p-10 mb-5'>
+                <form onSubmit={entrar} className='flex flex-col w-full gap-7 border border-slate-500 rounded-lg p-10 mb-5'>
                     <div>
-                    <label for="e-mail" className='text-start font-semibold'>E-mail</label>
-                    <div className='flex border border-slate-500 focus-within:border-2 focus-within:border-white  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
-                        <FontAwesomeIcon icon={faEnvelope}/>
-                        <input id="e-mail" className='w-full outline-none focus:outline-1 rounded-md bg-transparent  p-2 text-sm' placeholder='nome.sobrenome@sccorinthians.com.br' />
-                    </div>
+                        <label htmlFor="e-mail" className='text-start font-semibold'>E-mail</label>
+                        <div className='flex border border-slate-500 focus-within:border-2 focus-within:border-white  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
+                            <FontAwesomeIcon icon={faEnvelope} />
+                            <input required onChange={(e) => setEmail(e.target.value)} id="email" name="email" type="email" className='w-full outline-none focus:outline-1 rounded-md bg-transparent  p-2 text-sm' placeholder='nome.sobrenome@sccorinthians.com.br' />
+                        </div>
                     </div>
 
                     <div>
-                    <label for="password" className='text-start font-semibold'>Senha</label>
-                    <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-white rounded-md ease-in-out transition-colors'>
-                        <FontAwesomeIcon icon={faLock}/>
-                        <input id="password" type="password" className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' placeholder='••••••••' />
+                        <label htmlFor="password" className='text-start font-semibold'>Senha</label>
+                        <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-white rounded-md ease-in-out transition-colors'>
+                            <FontAwesomeIcon icon={faLock} />
+                            <input required onChange={(e) => setSenha(e.target.value)} id="password" name="password" type="password" className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' placeholder='••••••••' />
+                        </div>
                     </div>
-                    </div>
-                    <button className='bg-slate-500 text-white rounded-md text-lg font-bold'>
+                    <button type="submit" className='bg-slate-500 text-white rounded-md text-lg font-bold'>
                         Entrar
                     </button>
-                </section>
+                </form>
                 <div className='flex flex-col'>
                     <p className='text-sm'>Primeira vez aqui? Crie sua Conta</p>
-                    </div>
+                </div>
             </main>
         </div>
 

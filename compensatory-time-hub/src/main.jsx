@@ -10,11 +10,11 @@ import { RouterProvider } from 'react-router-dom'
 const router = createBrowserRouter([
   {
     path: "/",
-    element:<Home/>,
-  },
-   {
-    path: "/login",
     element:<Login/>,
+  },
+  {
+    path: "/home",
+    element:<Home/>,
   },
   {
     path: "/user",
