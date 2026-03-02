@@ -24,8 +24,8 @@ function Login() {
                 email: email,
                 senha: senha
             });
-            console.log(response.data)
-            if(response.data.mensagem === true){
+            if(response.data.message === "autorizado"){
+                localStorage.setItem("token", response.data.token);
                 navigate("/home");
             }
             else{
