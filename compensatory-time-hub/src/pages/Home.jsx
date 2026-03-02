@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import { useNavigate } from 'react-router-dom'
 import axios from "axios";
-import { useNavigate } from 'react-router-dom'
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faEnvelope } from "@fortawesome/free-solid-svg-icons"
@@ -16,9 +15,6 @@ import DailyCard from "../components/DailyCard";
 import Navbar from "../components/Navbar";
 
 function Home() {
-    const navigate = useNavigate();
-    const [workDays, setWorkDays] = useState([{ id: 1, name: "Neo Quimica Arena", date: "27 de fevereiro, 2026", time: "+2h30", project: "Projeto Alfa" }, { id: 1, name: "Neo Quimica Arena", date: "27 de fevereiro, 2026", time: "+2h30", project: "Projeto Alfa"}])
-
     const navigate = useNavigate();
 
     useEffect(() => {
