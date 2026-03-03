@@ -1,24 +1,32 @@
+// const importName = require("libraryName")
 const dotenv = require("dotenv")
+// Além de importar o dotenv, é preciso chamar essa função pra deixar configurado
 dotenv.config();
-const express = require("express");
-const app = express();
-const cors = require("cors");
 
+const express = require("express");
+// Configura uma variável para chamar o express
+const app = express();
+
+const cors = require("cors");
 const corsOptions = {
-    origin: "http://localhost:5173", // String direta é mais garantida
-    methods: ["GET", "POST", "PUT", "DELETE"], // Define os verbos permitidos
-    allowedHeaders: ["Content-Type", "Authorization"] // Garante que o Token passe
+    origin: "http://localhost:5173", // String direta do servidor de Front
+    methods: ["GET", "POST", "PUT", "DELETE"], // Define os métodos permitidos
+    allowedHeaders: ["Content-Type", "Authorization"] // Garante que o Token passe no header
 
 };
+
+// Json Web Token
 const jwt = require("jsonwebtoken")
 
+// Processa dados do .env
 const { USER, SENHA, ACESS_TOKEN_KEY } = process.env;
 
-
+// Express vai utilizar o cors, com as opções pré-definidas
 app.use(cors(corsOptions));
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Criação de um endpoint
 app.post("/api/login", (req, res) => {
     const { email, senha } = req.body;
 
@@ -26,8 +34,8 @@ app.post("/api/login", (req, res) => {
         return res.json({ erro: "E-mail ou Senha Inválidos" });
     }
 
-    const token = jwt.sign({ email }, ACESS_TOKEN_KEY, { expiresIn: "60min" });
-    res.json({ message: "autorizado", token })
+    const token = jwt.sign({email}, ACESS_TOKEN_KEY, { expiresIn: "60min" });
+    res.json({ message: "autorizado", token, email })
 });
 
 app.get("/api/validacao", (req, res) => {
