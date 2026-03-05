@@ -127,14 +127,10 @@ function Home() {
     return (
         <div className="min-h-screen w-screen">
             <Navbar />
-            <main className="px-3 pt-10 lg:px-20 lg:pt-10">
+            <main className="px-3 py-5 lg:px-20 lg:pt-10">
 
-                <div className="flex flex-col gap-10 px-10 lg:p-0">
-                    <header className="text-slate-800">
-                        <h1 className="font-bold text-3xl"> Olá, Vitor</h1>
-                        <p className="font-semibold text-md">Aqui está o resumo do seu banco de horas</p>
-                    </header>
-                    <div className="flex flex-col lg:flex-row justify-center lg:justify-start items-center w-full flex-wrap gap-3">
+                <div className="flex flex-col gap-5 px-10 lg:p-0">
+                    <div className="flex flex-col lg:flex-row justify-center lg:justify-start items-center w-full flex-wrap">
                         <CardTime workDaysList={workDays} />
                     </div>
                 </div>
@@ -151,11 +147,11 @@ function Home() {
                         <DailyCard className='shadow-none' name={newWorkDay.name} project={newWorkDay.project} timeExit={newWorkDay.timeExit} timeEntry={newWorkDay.timeEntry} date={newWorkDay.date} />
                     </div>
                     <div className="w-full">
-                        <form className='flex flex-wrap justify-center w-full gap-4 py-5 px-0 bg-white'>
+                        <form className='flex flex-wrap justify-center w-full gap-4 py-5 px-0 bg-[#020617]'>
 
                             <div className="w-[40%]">
                                 <label htmlFor="e-mail" className='text-start font-semibold'>Projeto</label>
-                                <div className='flex border border-slate-500 focus-within:border-2 focus-within:border-slate-800  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
+                                <div className='flex border border-text-[#b4c6f3]-500 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faSuitcase} />
                                     <input value={newWorkDay.name} onChange={(e) => setNewWorkDay({ ...newWorkDay, name: e.target.value })} type="text" className='w-full outline-none focus:outline-1 rounded-md bg-transparent  p-2 text-sm' placeholder='Atividade desenvolvida' />
                                 </div>
@@ -164,45 +160,62 @@ function Home() {
 
                             <div className="w-[40%]">
                                 <label htmlFor="password" className='text-start font-semibold'>Descrição</label>
-                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-slate-800 rounded-md ease-in-out transition-colors'>
+                                <div className='flex justify-start items-center px-2 border border-white focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faEnvelope} />
-                                    <input value={newWorkDay.project} onChange={(e) => setNewWorkDay({ ...newWorkDay, project: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                    <select value={newWorkDay.project} onChange={(e) => setNewWorkDay({ ...newWorkDay, project: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm'> <option defaultValue="" className="text-slate-950 font-bold">Selecione uma opção</option> <option className="text-slate-950 font-bold">Banco de Horas</option> <option className="text-slate-950 font-bold">Horas Extra</option></select>
                                 </div>
                             </div>
 
-                            {/* Pendente de ajustar o cálculo de datas, horários e a edição de cards*/}
-                            <div className="w-[25%]">
+                            <div className="w-[85%] lg:w-[25%]">
                                 <label htmlFor="password" className='text-start font-semibold'>Data</label>
-                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-slate-800 rounded-md ease-in-out transition-colors'>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faCalendar} />
                                     <input value={newWorkDay.date} type="date" onChange={(e) => setNewWorkDay({ ...newWorkDay, date: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
                                 </div>
                             </div>
-
-                            <div className="w-[25%]">
+                            <div className="hidden lg:flex  lg:justify-around  lg:items-center  lg:w-[55%]">
+                            <div className="w-[40%]">
                                 <label htmlFor="password" className='text-start font-semibold'>Horário de entrada</label>
-                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-slate-800 rounded-md ease-in-out transition-colors'>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
+                                    <FontAwesomeIcon icon={faClock} />
+                                    <input value={newWorkDay.timeEntry} type="time" onChange={(e) => {if(e.target.value > newWorkDay.timeExit){alert("Preencha  horário de saída antes de preench a entrada - O horário de saída não pode ser menor que o de entrada"); setNewWorkDay({ ...newWorkDay, timeEntry: "" })}else{setNewWorkDay({ ...newWorkDay, timeEntry: e.target.value })}}} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                </div>
+                            </div>
+
+                            <div className="w-[40%]">
+                                <label htmlFor="password" className='text-start font-semibold'>Horário de saída</label>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
+                                    <FontAwesomeIcon icon={faClock} />
+                                    <input type="time" value={newWorkDay.timeExit} onChange={(e) => {if(e.target.value < newWorkDay.timeEntry){alert("Preencha  horário de saída antes de preench a entrada - O horário de saída não pode ser menor que o de entrada"); setNewWorkDay({ ...newWorkDay, timeExit: "" })}else{setNewWorkDay({ ...newWorkDay, timeExit: e.target.value })}}} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                </div>
+                            </div>
+                            </div>
+                            <div className="lg:hidden flex justify-around  items-center w-[95%]">
+                            <div className="w-[40%]">
+                                <label htmlFor="password" className='text-start font-semibold'>Horário de entrada</label>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faClock} />
                                     <input value={newWorkDay.timeEntry} type="time" onChange={(e) => setNewWorkDay({ ...newWorkDay, timeEntry: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
                                 </div>
                             </div>
 
-                            <div className="w-[25%]">
+                            <div className="w-[40%]">
                                 <label htmlFor="password" className='text-start font-semibold'>Horário de saída</label>
-                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-slate-800 rounded-md ease-in-out transition-colors'>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faClock} />
                                     <input type="time" value={newWorkDay.timeExit} onChange={(e) => setNewWorkDay({ ...newWorkDay, timeExit: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
                                 </div>
                             </div>
+                            </div>
 
-                            <div className="flex justify-center w-full gap-2">
+                            <div className="flex justify-center w-full gap-2 py-6">
                                 
                                 {modal == 'adicionar' &&
-                                <button onClick={(e) => createWorkDays(e, {...newWorkDay, id: Math.floor(Math.random()*10000000000)})}className='w-[40%] p-1 bg-slate-800 text-white rounded-md text-lg font-bold'>
+                                <button onClick={(e) => createWorkDays(e, {...newWorkDay, id: Math.floor(Math.random()*10000000000)})}className='w-[40%] p-1 border text-blue-400 border-blue-400 rounded-md text-lg font-bold'>
                                     Salvar
                                 </button>}
                                 {modal == 'editar' &&
-                                <button onClick={(e) => updateWorkDays(e)}className='w-[40%] p-1 bg-slate-800 text-white rounded-md text-lg font-bold'>
+                                <button onClick={(e) => updateWorkDays(e)}className='w-[40%] p-1 border text-blue-400 border-blue-400 rounded-md text-lg font-bold'>
                                     Atualizar
                                 </button>}
                                 <button onClick={(e) => {
@@ -216,7 +229,7 @@ function Home() {
                                             project: ""
                                         },
                                     )
-                                }} className='w-[40%] p-1 bg-white text-slate-800 border border-slate-800 rounded-md text-lg font-bold'>
+                                }} className='w-[40%] p-1 bg-[#020617] text-red-400 border border-red-400 rounded-md text-lg font-bold'>
                                     Cancelar
                                 </button>
                             </div>
@@ -225,13 +238,12 @@ function Home() {
                 </div>
 
             </article>)}
-            <article className="flex justify-between items-center px-10 lg:px-20 lg:pt-10 font-semibold text-slate-800">
+
+            <div className="boder border-slate-500">
+            <article className="flex justify-between items-center px-10 lg:px-20 lg:pt-10 font-semibold text-text-[#b4c6f3]-800">
                 <p className="text-3xl">Histórico</p>
-                <button onClick={() => setModal("adicionar")} className="flex gap-1 items-center bg-slate-800 text-white px-2 py-1.5 rounded-lg"> <span className="flex leading-none text-2xl font-normal p-0 shadow-2xl"> + </span> Adicionar</button>
+                <button onClick={() => setModal("adicionar")} className="flex gap-1 items-center bg-text-[#b4c6f3]-800 text-white px-2 py-1.5 rounded-lg"> <span className="flex leading-none text-2xl font-normal p-0 shadow-2xl"> + </span> Adicionar</button>
             </article>
-
-
-
 
 
             <section className="px-10 lg:px-20 py-4">
@@ -240,9 +252,10 @@ function Home() {
                     <div key={index} className="m-3">
                         <DailyCard name={day.name} project={day.project} timeExit={day.timeExit} timeEntry={day.timeEntry} date={day.date} id={day.id} delete={deleteCard} edit={editCard} />
                     </div>
-                ))) : (<div className="w-full py-10 text-lg text-center font-bold border border-slate-800 rounded-md"><h1> Ainda sem nenhum registro.. Clique em adicionar para começar</h1></div>)}
+                ))) : (<div className="w-full py-10 text-lg text-center font-bold rounded-md"><h1> Ainda sem nenhum registro.. Clique em adicionar para começar</h1></div>)}
 
             </section>
+            </div>
 
         </div>
     )

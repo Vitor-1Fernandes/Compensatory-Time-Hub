@@ -41,20 +41,20 @@ function Login() {
     };
 
     return (
-        <div className="min-h-screen w-screen bg-slate-800 flex justify-center items-start py-30">
+        <div className="min-h-screen w-screen bg-[#0E1116] flex justify-center items-start pt-10">
 
             <main className="flex w-90 items-start justify-center flex-wrap text-white">
 
-                <header className='flex justify-center flex-wrap mb-5'>
+                <header className='flex justify-center flex-wrap mb-4'>
                     <div className='w-full text-center text-5xl m-5'> <FontAwesomeIcon icon={faUser} /><FontAwesomeIcon icon={faClock} /> </div>
                     <h1 className='text-3xl font-bold'>Banco de Horas</h1>
                     <h2 className='text-sm'>Gerencie suas horas de forma simples</h2>
                 </header>
 
-                <form onSubmit={entrar} className='flex flex-col w-full gap-7 border border-slate-500 rounded-lg p-10 mb-5'>
+                <form onSubmit={entrar} className='flex flex-col w-full gap-7 rounded-lg mb-2'>
                     <div>
                         <label htmlFor="e-mail" className='text-start font-semibold'>E-mail</label>
-                        <div className='flex border border-slate-500 focus-within:border-2 focus-within:border-white  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
+                        <div className='flex border border-white focus-within:border-2 focus-within:border-white  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
                             <FontAwesomeIcon icon={faEnvelope} />
                             <input required onChange={(e) => setEmail(e.target.value)} id="email" name="email" type="email" className='w-full outline-none focus:outline-1 rounded-md bg-transparent  p-2 text-sm' placeholder='nome.sobrenome@sccorinthians.com.br' />
                         </div>
@@ -67,12 +67,12 @@ function Login() {
                             <input required onChange={(e) => setSenha(e.target.value)} id="password" name="password" type="password" className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' placeholder='••••••••' />
                         </div>
                     </div>
-                    <button type="submit" className='bg-slate-500 text-white rounded-md text-lg font-bold'>
+                    <button type="submit" className='bg-[#0e1942] text-white rounded-md text-lg font-bold'>
                         Entrar
                     </button>
                 </form>
                 <div className='flex flex-col'>
-                    <p className='text-sm'>Primeira vez aqui? Crie sua Conta</p>
+                    <p className='text-sm mt-5'>Primeira vez aqui? Crie sua Conta</p>
                 </div>
             </main>
         </div>
