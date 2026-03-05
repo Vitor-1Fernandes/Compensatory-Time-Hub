@@ -24,7 +24,7 @@ function Home() {
 
             if (!token) { return navigate("/") };
             try {
-                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/api/validacao/api/validacao",
+                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/api/validacao",
                     {
                         headers: { authorization: `Bearer ${token}` }
                     });
