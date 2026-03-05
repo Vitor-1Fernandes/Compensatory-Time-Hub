@@ -24,7 +24,7 @@ function Home() {
 
             if (!token) { return navigate("/") };
             try {
-                const response = await axios.get("http://localhost:8080/api/validacao",
+                const response = await axios.get("https://sua-url-do-render.onrender.com/api/validacao",
                     {
                         headers: { authorization: `Bearer ${token}` }
                     });

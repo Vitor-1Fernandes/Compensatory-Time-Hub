@@ -1,0 +1,26 @@
+# Dependências (O que o servidor baixa sozinho)
+node_modules/
+
+# Pastas de Build (O resultado final que o servidor gera)
+build/
+dist/
+out/
+
+# Variáveis de Ambiente (Segredos, senhas e chaves de API)
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
+
+# Logs e Erros
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# Arquivos do Editor (VS Code, IntelliJ)
+.vscode/
+.idea/
+*.suo
+*.ntvs*
+*.njsproj
