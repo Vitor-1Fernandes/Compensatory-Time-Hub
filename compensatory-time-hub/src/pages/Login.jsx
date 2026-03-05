@@ -20,7 +20,7 @@ function Login() {
     const entrar = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post("https://sua-url-do-render.onrender.com", {
+            const response = await axios.post("https://banco-de-horas-khaki.vercel.app/api/login", {
                 email: email,
                 senha: senha
             });
