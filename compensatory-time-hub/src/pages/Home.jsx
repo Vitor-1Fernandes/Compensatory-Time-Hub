@@ -47,7 +47,7 @@ function Home() {
     const [modal, setModal] = useState(null);
     const [newWorkDay, setNewWorkDay] = useState(
         {
-            id: "",
+            id: 0,
             name: "",
             date: "",
             timeEntry: "",
@@ -56,12 +56,12 @@ function Home() {
         },
     )
 
-    const updateWorkDays = (e) => {
+    const createWorkDays = (e, newDay) => {
         e.preventDefault();
-        if (Object.values(newWorkDay).some((valor) => typeof valor === "string" ? (valor.trim() === "") : false)) {
+        if (Object.values(newDay).some((valor) => typeof valor === "string" ? (valor.trim() === "") : false)) {
             alert("Preencha todos os campos antes de salvar")
         } else {
-            setWorkDays([newWorkDay, ...workDays.map((workDay) => newWorkDay.id == workDay.id ?  newWorkDay : workDay)]);
+            setWorkDays([newDay, ...workDays]);
             setNewWorkDay(
                 {
                     id: 0,
@@ -75,6 +75,28 @@ function Home() {
             setModal(null);
         }
     };
+
+    const updateWorkDays = (e) => {
+        e.preventDefault();
+        if (Object.values(newWorkDay).some((valor) => typeof valor === "string" ? (valor.trim() === "") : false)) {
+            alert("Preencha todos os campos antes de salvar")
+        } else {
+            setWorkDays(workDays.map((day) => day.id === newWorkDay.id ? newWorkDay : day ));
+            setNewWorkDay(
+                {
+                    id: 0,
+                    name: "",
+                    date: "",
+                    timeEntry: "",
+                    timeExit: "",
+                    project: ""
+                },
+            )
+            setModal(null);
+        }
+    };
+
+
     useEffect(() => {
         localStorage.setItem("workDaysList", JSON.stringify(workDays));
     }, [workDays]);
@@ -83,7 +105,13 @@ function Home() {
         setWorkDays(workDays.filter((day) => day.id !== id))
     }
     const editCard = (day) => {
-        setModal(true);
+        setModalEdit({id: day.id,
+            name: day.name,
+            date: day.date,
+            timeEntry: day.timeEntry,
+            timeExit: day.timeExit,
+            project: day.project
+        });
         setNewWorkDay({
             id: day.id,
             name: day.name,
@@ -92,7 +120,10 @@ function Home() {
             timeExit: day.timeExit,
             project: day.project
         });
+        setModal("editar");
     }
+    const [modalEdit, setModalEdit] = useState({})
+
     return (
         <div className="min-h-screen w-screen">
             <Navbar />
@@ -104,7 +135,7 @@ function Home() {
                         <p className="font-semibold text-md">Aqui está o resumo do seu banco de horas</p>
                     </header>
                     <div className="flex flex-col lg:flex-row justify-center lg:justify-start items-center w-full flex-wrap gap-3">
-                        <CardTime />
+                        <CardTime workDaysList={workDays} />
                     </div>
                 </div>
             </main>
@@ -115,59 +146,65 @@ function Home() {
 
                 <h1 className="text-3xl text-white font-bold mb-5">Registre suas horas</h1>
 
-                <div className="flex items-center justify-center flex-col gap-2 bg-white w-[90%] md:w-[50%] overflow-hidden rounded-lg">
+                <div className="flex items-center justify-center flex-col gap-2  md:w-[50%] overflow-hidden rounded-lg">
                     <div className="w-full">
                         <DailyCard className='shadow-none' name={newWorkDay.name} project={newWorkDay.project} timeExit={newWorkDay.timeExit} timeEntry={newWorkDay.timeEntry} date={newWorkDay.date} />
                     </div>
                     <div className="w-full">
-                        <form className='flex flex-wrap justify-center w-full gap-4 py-5 px-0'>
+                        <form className='flex flex-wrap justify-center w-full gap-4 py-5 px-0 bg-white'>
 
                             <div className="w-[40%]">
                                 <label htmlFor="e-mail" className='text-start font-semibold'>Projeto</label>
-                                <div className='flex border border-slate-500 focus-within:border-2 focus-within:border-white  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
+                                <div className='flex border border-slate-500 focus-within:border-2 focus-within:border-slate-800  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faSuitcase} />
-                                    <input onChange={(e) => setNewWorkDay({ ...newWorkDay, id: Math.floor(Math.random() * 100000000), name: e.target.value })} type="text" className='w-full outline-none focus:outline-1 rounded-md bg-transparent  p-2 text-sm' placeholder='Atividade desenvolvida' />
+                                    <input value={newWorkDay.name} onChange={(e) => setNewWorkDay({ ...newWorkDay, name: e.target.value })} type="text" className='w-full outline-none focus:outline-1 rounded-md bg-transparent  p-2 text-sm' placeholder='Atividade desenvolvida' />
                                 </div>
                             </div>
 
 
                             <div className="w-[40%]">
                                 <label htmlFor="password" className='text-start font-semibold'>Descrição</label>
-                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-white rounded-md ease-in-out transition-colors'>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-slate-800 rounded-md ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faEnvelope} />
-                                    <input onChange={(e) => setNewWorkDay({ ...newWorkDay, project: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                    <input value={newWorkDay.project} onChange={(e) => setNewWorkDay({ ...newWorkDay, project: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
                                 </div>
                             </div>
 
                             {/* Pendente de ajustar o cálculo de datas, horários e a edição de cards*/}
                             <div className="w-[25%]">
                                 <label htmlFor="password" className='text-start font-semibold'>Data</label>
-                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-white rounded-md ease-in-out transition-colors'>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-slate-800 rounded-md ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faCalendar} />
-                                    <input type="date" onChange={(e) => setNewWorkDay({ ...newWorkDay, date: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                    <input value={newWorkDay.date} type="date" onChange={(e) => setNewWorkDay({ ...newWorkDay, date: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
                                 </div>
                             </div>
 
                             <div className="w-[25%]">
                                 <label htmlFor="password" className='text-start font-semibold'>Horário de entrada</label>
-                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-white rounded-md ease-in-out transition-colors'>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-slate-800 rounded-md ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faClock} />
-                                    <input onChange={(e) => setNewWorkDay({ ...newWorkDay, timeEntry: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                    <input value={newWorkDay.timeEntry} type="time" onChange={(e) => setNewWorkDay({ ...newWorkDay, timeEntry: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
                                 </div>
                             </div>
 
                             <div className="w-[25%]">
                                 <label htmlFor="password" className='text-start font-semibold'>Horário de saída</label>
-                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-white rounded-md ease-in-out transition-colors'>
+                                <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-slate-800 rounded-md ease-in-out transition-colors'>
                                     <FontAwesomeIcon icon={faClock} />
-                                    <input onChange={(e) => setNewWorkDay({ ...newWorkDay, timeExit: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                    <input type="time" value={newWorkDay.timeExit} onChange={(e) => setNewWorkDay({ ...newWorkDay, timeExit: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
                                 </div>
                             </div>
 
                             <div className="flex justify-center w-full gap-2">
-                                <button onClick={(e) => { updateWorkDays(e); }} className='w-[40%] p-1 bg-slate-800 text-white rounded-md text-lg font-bold'>
+                                
+                                {modal == 'adicionar' &&
+                                <button onClick={(e) => createWorkDays(e, {...newWorkDay, id: Math.floor(Math.random()*10000000000)})}className='w-[40%] p-1 bg-slate-800 text-white rounded-md text-lg font-bold'>
                                     Salvar
-                                </button>
+                                </button>}
+                                {modal == 'editar' &&
+                                <button onClick={(e) => updateWorkDays(e)}className='w-[40%] p-1 bg-slate-800 text-white rounded-md text-lg font-bold'>
+                                    Atualizar
+                                </button>}
                                 <button onClick={(e) => {
                                     e.preventDefault(); setModal(null); setNewWorkDay(
                                         {
@@ -190,7 +227,7 @@ function Home() {
             </article>)}
             <article className="flex justify-between items-center px-10 lg:px-20 lg:pt-10 font-semibold text-slate-800">
                 <p className="text-3xl">Histórico</p>
-                <button onClick={() => setModal(true)} className="flex gap-1 items-center bg-slate-800 text-white px-2 py-1.5 rounded-lg"> <span className="flex leading-none text-2xl font-normal p-0 shadow-2xl"> + </span> Adicionar</button>
+                <button onClick={() => setModal("adicionar")} className="flex gap-1 items-center bg-slate-800 text-white px-2 py-1.5 rounded-lg"> <span className="flex leading-none text-2xl font-normal p-0 shadow-2xl"> + </span> Adicionar</button>
             </article>
 
 
