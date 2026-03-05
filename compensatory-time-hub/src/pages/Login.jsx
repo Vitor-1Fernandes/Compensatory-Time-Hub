@@ -20,7 +20,7 @@ function Login() {
     const entrar = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post("http://localhost:8080/api/login", {
+            const response = await axios.post("https://sua-url-do-render.onrender.com", {
                 email: email,
                 senha: senha
             });
