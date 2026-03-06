@@ -67,7 +67,7 @@ function Login() {
                             <input required onChange={(e) => setSenha(e.target.value)} id="password" name="password" type="password" className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' placeholder='••••••••' />
                         </div>
                     </div>
-                    <button type="submit" className='bg-[#0e1942] text-white rounded-md text-lg font-bold'>
+                    <button type="submit" className='bg-blue-400 text-white rounded-md text-lg font-bold'>
                         Entrar
                     </button>
                 </form>
