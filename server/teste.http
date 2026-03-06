@@ -1,0 +1,11 @@
+POST http://localhost:8080/register
+Content-Type: application/json
+
+{
+    "id": "123",
+    "name": "Vitor Fernandes dos Santos",
+    "date": "2026-03-06",
+    "timeEntry": "09:00",
+    "timeExit": "18:00",
+    "project": "Sistema de Ponto"
+}
