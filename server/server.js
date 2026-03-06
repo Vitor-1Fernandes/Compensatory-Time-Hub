@@ -1,25 +1,40 @@
 // const importName = require("libraryName")
-const dotenv = require("dotenv")
+import dotenv  from "dotenv"
 // Além de importar o dotenv, é preciso chamar essa função pra deixar configurado
 dotenv.config();
 
-const express = require("express");
+import express from "express";
 // Configura uma variável para chamar o express
 const app = express();
-
-const cors = require("cors");
+import cors from "cors";
 const corsOptions = {
-    origin: "https://banco-de-horas-khaki.vercel.app", // String direta do servidor de Front
+    origin: "http://localhost:5173", // String direta do servidor de Front
     methods: ["GET", "POST", "PUT", "DELETE"], // Define os métodos permitidos
     allowedHeaders: ["Content-Type", "Authorization"] // Garante que o Token passe no header
 
 };
 
 // Json Web Token
-const jwt = require("jsonwebtoken")
+import jwt from "jsonwebtoken";
+// MongoDB
+import mongoose from "mongoose";
+import workTime from './bank.js';
 
 // Processa dados do .env
-const { USER, SENHA, ACESS_TOKEN_KEY } = process.env;
+const { USER, SENHA, ACESS_TOKEN_KEY, MONGO_URI } = process.env;
+
+// Conecta ao banco de dados
+const connectDB = async () => {
+    
+    try{
+        // Link do MongoDB
+        await mongoose.connect(MONGO_URI)
+        console.log("conectado ao mongo")}
+    catch(error){
+        console.log("deu erro", error)}
+}
+
+connectDB();
 
 // Express vai utilizar o cors, com as opções pré-definidas
 app.use(cors(corsOptions));
@@ -55,6 +70,47 @@ app.get("/api/validacao", (req, res) => {
 app.get("/api", (req, res) => {
     res.json({ day: ["name", "Neo Quimica Arena"] });
 });
+
+// Create
+app.post("/register", async (req, res) => {
+
+    try{const newWorkTime = await workTime.create(req.body);
+    res.json(newWorkTime);}
+    catch(error){
+        res.json({error: error})
+    };
+});
+
+// Read
+app.get("/register", async (req, res) => {
+
+    try{const workDaysTime = await workTime.find();
+    res.json(workDaysTime);}
+    catch(error){
+        res.json({error: error})
+    };
+});
+
+// Update
+app.put("/register/:id", async (req, res) => {
+    try{
+        const newWorkDaysTime = await workTime.findByIdAndUpdate(req.params.id, req.body, {new:true});
+        res.json(newWorkDaysTime);}
+    catch(error){
+        res.json({error: error})
+    };
+});
+
+// Delete
+app.delete("/register/:id", async (req, res) => {
+    try{
+        const newWorkDaysTimeDeleted = await workTime.findByIdAndDelete(req.params.id);
+        res.json(newWorkDaysTimeDelete);}
+    catch(error){
+        res.json({error: error})
+    };
+});
+
 app.listen(8080, () => {
     console.log("Servidor funcionando");
 });
