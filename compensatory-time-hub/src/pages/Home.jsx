@@ -24,7 +24,7 @@ function Home() {
 
             if (!token) { return navigate("/") };
             try {
-                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/api/validacao",
+                const response = await axios.get("http://localhost:8080/api/validacao",
                     {
                         headers: { authorization: `Bearer ${token}` }
                     });
@@ -43,7 +43,38 @@ function Home() {
         ;
     }, []);
 
-    const [workDays, setWorkDays] = useState(JSON.parse(localStorage.getItem("workDaysList")) || []);
+    const [workDays, setWorkDays] = useState([]);
+
+    useEffect( () => {
+
+        const getData = async () => {
+
+            try
+            {
+                const response = await axios.get("http://localhost:8080/register");
+                console.log(response.data, "dados")
+                setWorkDays(response.data)
+            }catch(error){
+            console.log(error, " Deu Erro")
+        }}
+
+        getData();
+    },[])
+
+    useEffect(() => {
+
+        const updateDB = async () => {
+            try{
+
+                const response = await axios.post("")
+
+            }catch(error){
+                console.log(error, " Deu Erro")
+            }
+        };
+
+    }, [workDays]);
+
     const [modal, setModal] = useState(null);
     const [newWorkDay, setNewWorkDay] = useState(
         {
