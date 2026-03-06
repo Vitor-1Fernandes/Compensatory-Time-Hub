@@ -12,11 +12,16 @@ function DailyCard(props){
 
      const time = (Number(String(props.timeExit.split(":")[0]*60)) + Number(String(props.timeExit.split(":")[1]))) - (Number(String((props.timeEntry.split(":")[0]*60))) + Number(String((props.timeEntry.split(":")[1]))));
 
+    
     if (Number(time) <= 6*60){
         workTime = ((Number(String(props.timeExit.split(":")[0]*60)) + Number(String(props.timeExit.split(":")[1]))) - (Number(String((props.timeEntry.split(":")[0]*60))) + Number(String((props.timeEntry.split(":")[1])))) - 9*60)
     }
     if (Number(time)  > 6*60){
         workTime =  ((Number(String(props.timeExit.split(":")[0]*60)) + Number(String(props.timeExit.split(":")[1]))) - (Number(String((props.timeEntry.split(":")[0]*60))) + Number(String((props.timeEntry.split(":")[1])))) - 10*60)
+    }
+    if(props.project == "Folga - Descontar do Banco"){
+
+        workTime = 0 - 9*60
     }
 
     let payWorkTime = 0
@@ -34,13 +39,15 @@ function DailyCard(props){
     payTextTime = Math.floor(payWorkTime/60) + "h" + (payWorkTime % 60)
      
 
+
     if(workTime < 0){
-        textTime = Math.ceil(workTime/60) + "h" + (workTime % 60)
+        textTime = Math.ceil(workTime/60) + "h" + Math.abs((workTime % 60))
         
     }else{
-        textTime = Math.floor(workTime/60) + "h" + (workTime % 60)
+        textTime = Math.floor(workTime/60) + "h" + Math.abs((workTime % 60))
     }
 
+    
     
     
 
