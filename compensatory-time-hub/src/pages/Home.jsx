@@ -154,11 +154,7 @@ function Home() {
 
         try{
         const response = await axios.delete("https://banco-de-horas-qmy6.onrender.com/register", { headers: { authorization: `Bearer ${token}` },  data:newWorkDay })
-        if(!response.data){
-            setWorkDays([])
-        }else{
-            setWorkDays([response.data])};
-        window.location.reload()}
+        setWorkDays(workDays.filter((days) => newWorkDay._id != days._id))}
         catch(error){
             console.log(error)
         }
