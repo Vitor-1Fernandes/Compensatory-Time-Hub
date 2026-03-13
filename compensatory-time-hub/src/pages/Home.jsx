@@ -25,7 +25,7 @@ function Home() {
 
             if (!token) { return navigate("/") };
             try {
-                const response = await axios.get("http://localhost:8080/api/validacao",
+                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/api/validacao",
                     {
                         headers: { authorization: `Bearer ${token}` }
                     });
@@ -51,7 +51,7 @@ function Home() {
         const getData = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await axios.get("http://localhost:8080/register", { headers: { authorization: `Bearer ${token}` } });
+                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/register", { headers: { authorization: `Bearer ${token}` } });
                 setWorkDays(response.data)
             } catch (error) {
                 console.log(error, " Deu Erro")
@@ -71,7 +71,7 @@ function Home() {
         else {
 
             try {
-                const response = await axios.post("http://localhost:8080/register", {
+                const response = await axios.post("https://banco-de-horas-qmy6.onrender.com/register", {
                     "name": newWorkDay.name,
                     "date": newWorkDay.date,
                     "timeEntry": newWorkDay.timeEntry,
@@ -117,7 +117,7 @@ function Home() {
             alert("Preencha todos os campos antes de salvar")
         } else {
             try{
-            const response = await axios.put("http://localhost:8080/register",{
+            const response = await axios.put("https://banco-de-horas-qmy6.onrender.com/register",{
                 "_id": newWorkDay._id,
                 "name": newWorkDay.name,
                 "date": newWorkDay.date,
@@ -153,7 +153,7 @@ function Home() {
         if (!token) { return navigate("/") };
 
         try{
-        const response = await axios.delete("http://localhost:8080/register", { headers: { authorization: `Bearer ${token}` },  data:newWorkDay })
+        const response = await axios.delete("https://banco-de-horas-qmy6.onrender.com/register", { headers: { authorization: `Bearer ${token}` },  data:newWorkDay })
         if(!response.data){
             setWorkDays([])
         }else{

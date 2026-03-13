@@ -8,7 +8,7 @@ import express from "express";
 const app = express();
 import cors from "cors";
 const corsOptions = {
-    origin: "http://localhost:5173", // String direta do servidor de Front
+    origin: "https://banco-de-horas-khaki.vercel.app", // String direta do servidor de Front
     methods: ["GET", "POST", "PUT", "DELETE"], // Define os métodos permitidos
     allowedHeaders: ["Content-Type", "Authorization"] // Garante que o Token passe no header
 
