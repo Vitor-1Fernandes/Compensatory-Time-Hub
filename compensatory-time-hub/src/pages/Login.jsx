@@ -20,12 +20,13 @@ function Login() {
     const entrar = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post("https://banco-de-horas-qmy6.onrender.com/api/login", {
+            const response = await axios.post("http://localhost:8080/api/login", {
                 email: email,
                 senha: senha
             });
             if(response.data.message === "autorizado"){
                 localStorage.setItem("token", response.data.token);
+                localStorage.setItem("nome", response.data.name);
                 navigate("/home");
             }
             else{
@@ -56,7 +57,7 @@ function Login() {
                         <label htmlFor="e-mail" className='text-start font-semibold'>E-mail</label>
                         <div className='flex border border-white focus-within:border-2 focus-within:border-white  rounded-md justify-start items-center px-2 ease-in-out transition-colors'>
                             <FontAwesomeIcon icon={faEnvelope} />
-                            <input required onChange={(e) => setEmail(e.target.value)} id="email" name="email" type="email" className='w-full outline-none focus:outline-1 rounded-md bg-transparent  p-2 text-sm' placeholder='nome.sobrenome@sccorinthians.com.br' />
+                            <input required onChange={(e) => setEmail(e.target.value)} id="email" name="email" className='w-full outline-none focus:outline-1 rounded-md bg-transparent  p-2 text-sm' placeholder='nome.sobrenome@sccorinthians.com.br' />
                         </div>
                     </div>
 
