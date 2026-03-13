@@ -4,13 +4,25 @@ import {faSignOut} from "@fortawesome/free-solid-svg-icons"
 import {faUser} from "@fortawesome/free-solid-svg-icons"
 
 import { Link } from 'react-router-dom'
+import { useState } from 'react'
+import { useEffect } from 'react'
+
 
 function Navbar() {
+
+    const [nameUser, setNameUser] = useState("")
+
+    useEffect(() => {
+    const nome = localStorage.getItem("nome")
+    setNameUser(nome)
+    },
+    [])
+
     return (
         <div className="flex items-center justify-between w-full text-[#ffffff] font-bold py-5 px-2 lg:px-4 md:px-10" 
         >
             <div className='flex flex-col-reverse items-start gap-1 pl-4 lg:pl-12'>
-                <h1 className="flex w-auto font-light"> Olá, Vitor - Aqui está seu resumo</h1>
+                <h1 className="flex w-auto font-light"> Olá, {nameUser} - Aqui está seu resumo</h1>
                 <p className='lg:text-2xl text-xl bg-clip-text text-transparent bg-linear-to-l from-[#6c8cde] via-[#5b9be5] to-[#8aa3e1]'>Banco de horas</p>
             </div>
 
