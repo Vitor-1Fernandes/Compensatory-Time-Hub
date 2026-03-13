@@ -1,14 +1,15 @@
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import {faSignOut} from "@fortawesome/free-solid-svg-icons"
-import {faUser} from "@fortawesome/free-solid-svg-icons"
+import {faClock} from "@fortawesome/free-solid-svg-icons"
+import {faHome} from "@fortawesome/free-solid-svg-icons"
 
 import { Link } from 'react-router-dom'
 import { useState } from 'react'
 import { useEffect } from 'react'
 
 
-function Navbar() {
+function Navbar(props) {
 
     const [nameUser, setNameUser] = useState("")
 
@@ -28,8 +29,8 @@ function Navbar() {
 
 
             <div className="flex gap-5">
-
-                <Link to="/user"><FontAwesomeIcon className="lg:text-xl" icon={faUser}/></Link>
+                <Link to="/home"><FontAwesomeIcon className="lg:text-xl" icon={faHome}/></Link>
+                <button onClick={() => props.modelShow()}><FontAwesomeIcon className="lg:text-xl" icon={faClock}/></button>
                 <Link to="/"><FontAwesomeIcon className="lg:text-xl" icon={faSignOut}/></Link>
             </div>
 

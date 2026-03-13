@@ -25,7 +25,7 @@ function CardTime(props) {
                 }
                 payTotalHours = payTotalHours + payTime
             }
-            if (array[days].project == "Banco de Horas" || array[days].project == "Folga - Descontar do Banco") {
+            if (array[days].project == "Banco de Horas" || array[days].project == "Folga - Descontar do Banco" || array[days].project == "Horas Positivas" || array[days].project == "Horas Negativas") {
 
                 time = (Number(String(array[days].timeExit.split(":")[0] * 60)) + Number(String(array[days].timeExit.split(":")[1]))) - (Number(String((array[days].timeEntry.split(":")[0] * 60))) + Number(String((array[days].timeEntry.split(":")[1]))))
 
@@ -37,8 +37,15 @@ function CardTime(props) {
                 }
                 if(array[days].project == "Folga - Descontar do Banco"){
                     time = 0 - 9*60
-                }
+                }if(array[days].project == "Horas Negativas"){
 
+                    time = 0 - (Number(String((array[days].timeEntry.split(":")[0] * 60))) + Number(String((array[days].timeEntry.split(":")[1]))));
+                }
+                if(array[days].project == "Horas Positivas"){
+
+                    time = 0 + (Number(String((array[days].timeEntry.split(":")[0] * 60))) + Number(String((array[days].timeEntry.split(":")[1]))));
+
+                }
                 totalHours = totalHours + time
             }
 
@@ -74,7 +81,7 @@ function CardTime(props) {
             {!!payTotalHours && (<div className="flex flex-wrap w-full lg:w-auto lg:max-w-85 bg-[#15191E] rounded-lg p-5 text-white shadow-[#000000] shadow-lg">
                 <FontAwesomeIcon className="mb-2 text-[#FFD700] p-1 rounded-md" icon={faDollarSign} />
                 <p className="w-full text-sm">Horas Extras</p>
-                <h2 className="w-full font-bold text-3xl text-[#FFD700]">{payTextTime}</h2><p className="text-sm w-full"> Referentes a Março </p></div>)}
+                <h2 className="w-full font-bold text-3xl text-[#FFD700]">{payTextTime}</h2><p className="text-sm w-full"> Referentes a 14/03 a 13/04 </p></div>)}
 
         </div>
 

@@ -20,7 +20,7 @@ function Login() {
     const entrar = async (event) => {
         event.preventDefault();
         try {
-            const response = await axios.post("https://banco-de-horas-qmy6.onrender.com/api/login", {
+            const response = await axios.post("https://banco-de-horas-qmy6.onrender.com/api/validacao/api/login", {
                 email: email,
                 senha: senha
             });

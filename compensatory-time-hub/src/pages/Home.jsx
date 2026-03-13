@@ -14,6 +14,8 @@ import CardTime from "../components/CardTime";
 import DailyCard from "../components/DailyCard";
 import Navbar from "../components/Navbar";
 
+import SetModel from "../components/SetModel";
+
 function Home() {
 
     // Validação do token
@@ -25,7 +27,7 @@ function Home() {
 
             if (!token) { return navigate("/") };
             try {
-                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/api/validacao",
+                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/api/validacao/api/validacao",
                     {
                         headers: { authorization: `Bearer ${token}` }
                     });
@@ -51,10 +53,10 @@ function Home() {
         const getData = async () => {
             const token = localStorage.getItem("token");
             try {
-                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/register", { headers: { authorization: `Bearer ${token}` } });
+                const response = await axios.get("https://banco-de-horas-qmy6.onrender.com/api/validacao/register", { headers: { authorization: `Bearer ${token}` } });
                 setWorkDays(response.data)
             } catch (error) {
-                console.log(error, " Deu Erro")
+                console.log(error, "Deu Erro")
             }
         }
         getData();
@@ -71,7 +73,7 @@ function Home() {
         else {
 
             try {
-                const response = await axios.post("https://banco-de-horas-qmy6.onrender.com/register", {
+                const response = await axios.post("https://banco-de-horas-qmy6.onrender.com/api/validacao/register", {
                     "name": newWorkDay.name,
                     "date": newWorkDay.date,
                     "timeEntry": newWorkDay.timeEntry,
@@ -117,7 +119,7 @@ function Home() {
             alert("Preencha todos os campos antes de salvar")
         } else {
             try{
-            const response = await axios.put("https://banco-de-horas-qmy6.onrender.com/register",{
+            const response = await axios.put("https://banco-de-horas-qmy6.onrender.com/api/validacao/register",{
                 "_id": newWorkDay._id,
                 "name": newWorkDay.name,
                 "date": newWorkDay.date,
@@ -153,7 +155,7 @@ function Home() {
         if (!token) { return navigate("/") };
 
         try{
-        const response = await axios.delete("https://banco-de-horas-qmy6.onrender.com/register", { headers: { authorization: `Bearer ${token}` },  data:newWorkDay })
+        const response = await axios.delete("https://banco-de-horas-qmy6.onrender.com/api/validacao/register", { headers: { authorization: `Bearer ${token}` },  data:newWorkDay })
         setWorkDays(workDays.filter((days) => newWorkDay._id != days._id))}
         catch(error){
             console.log(error)
@@ -187,22 +189,30 @@ function Home() {
         });
         setModal("editar");
     }
+
+    const [showModel,setShowModel] = useState(false)
+
+    const modelShow = () => {
+        setShowModel((!showModel));
+    } 
     
 // JSX
     return (
         <div className="min-h-screen w-screen">
-            <Navbar />
+            <Navbar modelShow={modelShow}/>
             <main className="px-3 py-5 lg:px-20 lg:pt-10">
                 <div className="flex flex-col lg:flex-row justify-center lg:justify-start items-center w-full flex-wrap">
                     <CardTime workDaysList={workDays} />
                 </div>
             </main>
 
-
+            <div className={showModel ? "flex" :" hidden"}>
+            <SetModel create={increaseDB} showModel={modelShow}/>
+            </div>
 
             {modal && (<article className="flex flex-col items-center justify-center fixed inset-0 z-9999 overflow-y-auto bg-black/90 w-full shadow-white shadow-2xl">
 
-                <h1 className="text-3xl text-white font-bold mb-5">Registre suas horas</h1>
+                <h1 className="text-3xl font-bold mb-5 bg-clip-text text-transparent bg-linear-to-l from-[#6c8cde] via-[#5b9be5] to-[#8aa3e1]">Registre suas horas</h1>
 
                 <div className="flex items-center justify-center flex-col gap-2  md:w-[50%] overflow-hidden rounded-lg">
                     <div className="w-full">
@@ -227,7 +237,7 @@ function Home() {
                                     <select value={newWorkDay.project} onChange={(e) => { e.target.value == "Folga - Descontar do Banco" ? setNewWorkDay({ ...newWorkDay, project: e.target.value, timeEntry: "08:00", timeExit: "17:00" }) : setNewWorkDay({ ...newWorkDay, project: e.target.value }) }} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm'> <option selected value="" className="text-slate-950 font-semibold">Selecione uma opção</option><option className="text-slate-950 font-semibold">Folga - Descontar do Banco</option><option className="text-slate-950 font-semibold">Banco de Horas</option><option className="text-slate-950 font-semibold">Horas Extra</option></select>
                                 </div>
                             </div>
-
+                            {console.log(newWorkDay)}
                             <div className={newWorkDay.project != "Folga - Descontar do Banco" ? "w-[85%] lg:w-[25%]" : "w-[83%]"}>
                                 <label htmlFor="password" className='text-start font-semibold'>Data</label>
                                 <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
@@ -286,7 +296,6 @@ function Home() {
                                 <button onClick={(e) => {
                                     e.preventDefault(); setModal(null); setNewWorkDay(
                                         {
-                                            _id: "",
                                             name: "",
                                             date: "",
                                             timeEntry: "",
@@ -317,7 +326,7 @@ function Home() {
                         <div key={index} className="my-5">
                             <DailyCard name={day.name} project={day.project} timeExit={day.timeExit} timeEntry={day.timeEntry} date={day.date} _id={day._id} delete={deleteCard} edit={editCard} />
                         </div>
-                    ))) : (<div className="w-full py-10 text-lg text-center font-bold rounded-md"><h1> Ainda sem nenhum registro.. Clique em adicionar para começar</h1></div>)}
+                    ))) : (<div className="w-full py-10 text-lg text-center font-bold rounded-md"><h1> Ainda sem nenhum registro... Clique em adicionar para começar</h1></div>)}
 
                 </section>
             </div>

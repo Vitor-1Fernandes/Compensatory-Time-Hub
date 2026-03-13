@@ -23,6 +23,7 @@ import workTime from './bank.js';
 // Processa dados do .env
 const { USERSTR, NAMESTR, USER_ID, SENHA, ACESS_TOKEN_KEY, MONGO_URI } = process.env;
 
+const USER_IDLIST = USER_ID.replace("'", "").split(",")
 const USER = USERSTR.replace("'", "").split(",")
 const SENHALIST = SENHA.replace("'", "").split(",")
 const NAMES = NAMESTR.replace("'", "").split(",")
@@ -58,7 +59,7 @@ app.post("/api/login", (req, res) => {
     }
     else{
         if(senha == SENHALIST[index]){
-            const token = jwt.sign({ USER_ID:USER_ID[index]}, ACESS_TOKEN_KEY, { expiresIn: "60min" });
+            const token = jwt.sign({ USER_ID:USER_IDLIST[index]}, ACESS_TOKEN_KEY, { expiresIn: "60min" });
             res.json({ message: "autorizado", token, email, name:NAMES[index]})
         }else{
             return res.json({ erro: "E-mail ou Senha Inválidos" })
