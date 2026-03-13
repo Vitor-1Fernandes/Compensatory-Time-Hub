@@ -1,5 +1,5 @@
 // const importName = require("libraryName")
-import dotenv  from "dotenv"
+import dotenv from "dotenv"
 // Além de importar o dotenv, é preciso chamar essa função pra deixar configurado
 dotenv.config();
 
@@ -21,17 +21,23 @@ import mongoose from "mongoose";
 import workTime from './bank.js';
 
 // Processa dados do .env
-const { USER, SENHA, ACESS_TOKEN_KEY, MONGO_URI } = process.env;
+const { USERSTR, NAMESTR, USER_ID, SENHA, ACESS_TOKEN_KEY, MONGO_URI } = process.env;
+
+const USER = USERSTR.replace("'", "").split(",")
+const SENHALIST = SENHA.replace("'", "").split(",")
+const NAMES = NAMESTR.replace("'", "").split(",")
 
 // Conecta ao banco de dados
 const connectDB = async () => {
-    
-    try{
+
+    try {
         // Link do MongoDB
         await mongoose.connect(MONGO_URI)
-        console.log("conectado ao mongo")}
-    catch(error){
-        console.log("deu erro", error)}
+        console.log("conectado ao mongo")
+    }
+    catch (error) {
+        console.log("deu erro", error)
+    }
 }
 
 connectDB();
@@ -45,12 +51,20 @@ app.use(express.urlencoded({ extended: true }));
 app.post("/api/login", (req, res) => {
     const { email, senha } = req.body;
 
-    if (email != USER || senha != SENHA) {
+    const index = USER.indexOf(email);
+
+    if (index == -1) {
         return res.json({ erro: "E-mail ou Senha Inválidos" });
     }
-
-    const token = jwt.sign({email}, ACESS_TOKEN_KEY, { expiresIn: "60min" });
-    res.json({ message: "autorizado", token, email })
+    else{
+        if(senha == SENHALIST[index]){
+            const token = jwt.sign({ USER_ID:USER_ID[index]}, ACESS_TOKEN_KEY, { expiresIn: "60min" });
+            res.json({ message: "autorizado", token, email, name:NAMES[index]})
+        }else{
+            return res.json({ erro: "E-mail ou Senha Inválidos" })
+        }
+    }
+    
 });
 
 app.get("/api/validacao", (req, res) => {
@@ -61,54 +75,90 @@ app.get("/api/validacao", (req, res) => {
 
     jwt.verify(token, ACESS_TOKEN_KEY, (error, decoded) => {
         if (error) { return res.status(403).json({ erro: "Não autorizado" }) };
-        res.json({ message: "autorizado"})
+        res.json({ message: "autorizado" })
 
     })
-});
-
-
-app.get("/api", (req, res) => {
-    res.json({ day: ["name", "Neo Quimica Arena"] });
 });
 
 // Create
 app.post("/register", async (req, res) => {
 
-    try{const newWorkTime = await workTime.create(req.body);
-    res.json(newWorkTime);}
-    catch(error){
-        res.json({error: error})
-    };
-});
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) { return res.status(403).json({ erro: "Não autorizado" }) };
+
+    jwt.verify(token, ACESS_TOKEN_KEY, async (error, decoded) => {
+        if (error) { return res.status(403).json({ erro: "Não autorizado" }) };
+        const userID = decoded
+        try {
+            const newWorkTime = await workTime.create({ ...req.body, "userID": userID.USER_ID });
+            res.json(newWorkTime);
+        }
+        catch (error) {
+            res.json({ error: error })
+        };
+    });
+})
+
 
 // Read
 app.get("/register", async (req, res) => {
 
-    try{const workDaysTime = await workTime.find();
-    res.json(workDaysTime);}
-    catch(error){
-        res.json({error: error})
-    };
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) { return res.status(403).json({ erro: "Não autorizado" }) };
+
+    jwt.verify(token, ACESS_TOKEN_KEY, async (error, decoded) => {
+        try {
+            const workDaysTime = await workTime.find({ "userID": decoded.USER_ID });
+            res.json(workDaysTime);
+        }
+        catch (error) {
+            res.json({ error: error })
+        };
+    });
 });
 
 // Update
-app.put("/register/:id", async (req, res) => {
-    try{
-        const newWorkDaysTime = await workTime.findByIdAndUpdate(req.params.id, req.body, {new:true});
-        res.json(newWorkDaysTime);}
-    catch(error){
-        res.json({error: error})
-    };
+app.put("/register", async (req, res) => {
+
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    if (!token) { return res.status(403).json({ erro: "Não autorizado" }) };
+
+    jwt.verify(token, ACESS_TOKEN_KEY, async (error, decoded) => {
+        if (error) { return res.status(403).json({ erro: "Não autorizado" }) };
+        try {
+            const newWorkDaysTime = await workTime.findOneAndUpdate({ _id: req.body._id, userID: decoded.USER_ID }, req.body, { new: true });
+            res.json(newWorkDaysTime);
+        }
+        catch (error) {
+            res.json({ error: error })
+        };
+    })
+
 });
 
 // Delete
-app.delete("/register/:id", async (req, res) => {
-    try{
-        const newWorkDaysTimeDeleted = await workTime.findByIdAndDelete(req.params.id);
-        res.json(newWorkDaysTimeDelete);}
-    catch(error){
-        res.json({error: error})
-    };
+app.delete("/register", async (req, res) => {
+    const authHeader = req.headers["authorization"];
+    const token = authHeader && authHeader.split(" ")[1];
+
+    jwt.verify(token, ACESS_TOKEN_KEY, async (error, decoded) => {
+        if (error) { return res.status(403).json({ error: "Não autorizado" }) };
+        try {
+
+            const newWorkDaysTimeDeleted = await workTime.findOneAndDelete({ _id: req.body._id, userID: decoded.USER_ID });
+            res.json(newWorkDaysTimeDeleted);
+            
+        }
+        catch (error) {
+            res.json({ error: error })
+        };
+    });
 });
 
 app.listen(8080, () => {

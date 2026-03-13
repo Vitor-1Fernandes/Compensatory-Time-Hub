@@ -2,7 +2,8 @@ import mongoose from "mongoose";
 
 const bankSchema = new mongoose.Schema({
 
-    "id": String,
+
+    "userID": String,
     "name": String,
     "date":String,
     "timeEntry":String,
