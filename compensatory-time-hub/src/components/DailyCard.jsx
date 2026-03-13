@@ -23,6 +23,14 @@ function DailyCard(props){
 
         workTime = 0 - 9*60
     }
+    if(props.project == "Horas Negativas"){
+
+        workTime = 0 - (Number(String((props.timeEntry.split(":")[0]*60))) + Number(String((props.timeEntry.split(":")[1]))));
+    }
+    if(props.project == "Horas Positivas"){
+
+        workTime = 0 +  (Number(String((props.timeEntry.split(":")[0]*60))) + Number(String((props.timeEntry.split(":")[1]))));
+    }
 
     let payWorkTime = 0
     let payTextTime = ""
@@ -65,7 +73,7 @@ function DailyCard(props){
             <div className='text-3xl flex justify-end items-center'>
                 <p className={workTime >= 0 || props.project == "Horas Extra" ? "text-blue-400 font-bold" : "text-red-400 font-bold"}>{workTime >= 0 || props.project == "Horas Extra"? "+" : ""}{props.project == "Horas Extra" ? payTextTime : textTime}</p>
             </div>
-            <div className='flex items-start text-lg gap-5'>
+            <div className='flex justify-end text-lg gap-5'>
                 <button onClick={(e) => props.delete(e, props)}><FontAwesomeIcon icon={faTrash}/></button>
                 <button onClick={() => props.edit(props)}><FontAwesomeIcon icon={faPencil}/></button>
             </div>
