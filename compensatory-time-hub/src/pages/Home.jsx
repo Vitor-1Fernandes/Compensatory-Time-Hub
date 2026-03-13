@@ -157,7 +157,8 @@ function Home() {
         if(!response.data){
             setWorkDays([])
         }else{
-            setWorkDays([response.data])}}
+            setWorkDays([response.data])};
+        window.location.reload()}
         catch(error){
             console.log(error)
         }
