@@ -53,7 +53,7 @@ function DailyCard(props){
 
     return(
         
-         <div className="flex flex-wrap justify-between  bg-[#15191E] rounded-lg p-5 gap-1 text-white shadow-[#1b1b1b] shadow-2xl">
+         <div className="flex flex-wrap justify-between  bg-[#15191E] rounded-lg p-5 gap-1 text-white shadow-[#000000] shadow-sm">
            <div>
             <p className="w-full text-sm"><FontAwesomeIcon icon={faCalendar}/>{props.date}</p>
             <h2 className={workTime >= 0 || props.project == "Horas Extra" ? "text-blue-400 font-bold" : "text-red-400 font-bold"}>{props.name}</h2>
@@ -66,7 +66,7 @@ function DailyCard(props){
                 <p className={workTime >= 0 || props.project == "Horas Extra" ? "text-blue-400 font-bold" : "text-red-400 font-bold"}>{workTime >= 0 || props.project == "Horas Extra"? "+" : ""}{props.project == "Horas Extra" ? payTextTime : textTime}</p>
             </div>
             <div className='flex items-start text-lg gap-5'>
-                <button onClick={() => props.delete(props.id)}><FontAwesomeIcon icon={faTrash}/></button>
+                <button onClick={(e) => props.delete(e, props)}><FontAwesomeIcon icon={faTrash}/></button>
                 <button onClick={() => props.edit(props)}><FontAwesomeIcon icon={faPencil}/></button>
             </div>
             </div>
