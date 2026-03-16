@@ -27,7 +27,7 @@ function DailyCard(props){
 
     let dateBug = new Date(props.date)
     let date = new Date(dateBug.getTime() + 24*60*60*1000)
-    
+
     console.log(date)
     const time = returnTime(props.timeExit, props.timeEntry, props.project, date.getDay() + 1);
 
@@ -48,7 +48,7 @@ function DailyCard(props){
         
          <div className="flex flex-wrap justify-between  bg-[#15191E] rounded-lg p-5 gap-1 text-white shadow-[#000000] shadow-sm">
            <div>
-            <p className="w-full text-sm"><FontAwesomeIcon icon={faCalendar}/>{date.toLocaleDateString('pt-BR')}</p>
+            <p className="w-full text-sm"><FontAwesomeIcon icon={faCalendar}/>{props.project == "Horas Positivas" || props.project == "Horas Negativas" ? date.toLocaleDateString('pt-BR') : "Correção" }</p>
             <h2 className={time >= 0 || props.project == "Horas Extra" ? "text-blue-400 font-bold" : "text-red-400 font-bold"}>{props.name}</h2>
             <p className="w-full text-sm"> <FontAwesomeIcon icon={faSuitcase}/> {props.project}</p>
             <p className={time >= 0 || props.project == "Horas Extra" ? "text-blue-400 text-sm" : "text-red-400 text-sm"}> <FontAwesomeIcon icon={faClock}/> {props.timeEntry} - {props.timeExit}</p>
