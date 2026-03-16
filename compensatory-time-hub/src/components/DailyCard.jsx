@@ -25,7 +25,9 @@ function DailyCard(props){
 
     }
 
-    let date = new Date(props.date)
+    let dateBug = new Date(props.date)
+    let date = new Date(dateBug.getTime() + 24*60*60*1000)
+    
     console.log(date)
     const time = returnTime(props.timeExit, props.timeEntry, props.project, date.getDay() + 1);
 
