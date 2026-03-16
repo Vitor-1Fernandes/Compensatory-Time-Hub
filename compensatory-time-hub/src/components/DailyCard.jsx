@@ -13,7 +13,7 @@ function DailyCard(props){
 
         if(time > 6*60){time = time - 60}
 
-        if(projeto != "Horas Extra"){dia != 5 ? time = 0 - 9*60 : time = 0 - 8*60}
+        if(projeto != "Horas Extra"){dia != 5 ? time = time - 9*60 : time = time - 8*60}
 
         if(projeto == "Folga - Descontar do Banco"){dia != 5 ? time = 0 - 9*60 : time = 0 - 8*60}
 
@@ -25,7 +25,9 @@ function DailyCard(props){
 
     }
 
-    let date = new Date(props.date)
+    let dateBug = new Date(props.date)
+    let date = new Date(dateBug.getTime() + 24*60*60*1000)
+    
     console.log(date)
     const time = returnTime(props.timeExit, props.timeEntry, props.project, date.getDay() + 1);
 
