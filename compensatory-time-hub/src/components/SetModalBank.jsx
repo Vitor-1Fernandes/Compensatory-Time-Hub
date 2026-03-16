@@ -38,8 +38,8 @@ function SetModalBank(props) {
                         <button className='w-[40%] p-1 border text-blue-400 border-blue-400 rounded-md text-md font-bold' onClick={(e) => {e.preventDefault(); Number(minutes) < 60 && Number(minutes) >= 0 && Number(hours) >= 0 ?  (props.create(e, {
                             "name": "Ajuste de Horas",
                             "date": "00-00-0000",
-                            "timeEntry": hours+":"+minutes,
-                            "timeExit": "00:00",
+                            "timeEntry": (project == "Horas Positivas" ? (hours+":"+minutes) : "00:00"),
+                            "timeExit": (project == "Horas Negativas" ? (hours+":"+minutes) : "00:00"),
                             "project": project
                         }), props.showModel()) : alert("Insira o saldo corretamente"), setMinutes(0), setHours(0) } }>
                             Confirmar
