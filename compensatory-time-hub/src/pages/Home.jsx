@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react";
-import { useNavigate } from 'react-router-dom'
+import { UNSAFE_getTurboStreamSingleFetchDataStrategy, useNavigate } from 'react-router-dom'
 import axios from "axios";
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
@@ -14,7 +14,7 @@ import CardTime from "../components/CardTime";
 import DailyCard from "../components/DailyCard";
 import Navbar from "../components/Navbar";
 
-import SetModel from "../components/SetModel";
+import SetModalBank from "../components/SetModalBank";
 
 function Home() {
 
@@ -128,8 +128,6 @@ function Home() {
                 "project": newWorkDay.project
             },{ headers: { authorization: `Bearer ${token}` } }); 
 
-            console.log(response.data)
-
             setWorkDays(workDays.map((day) => day._id === newWorkDay._id ? response.data : day))
             setNewWorkDay(
                 {
@@ -195,6 +193,9 @@ function Home() {
     const modelShow = () => {
         setShowModel((!showModel));
     } 
+
+    let today = new Date()
+    let date = today.toLocaleDateString('pt-BR')
     
 // JSX
     return (
@@ -207,7 +208,7 @@ function Home() {
             </main>
 
             <div className={showModel ? "flex" :" hidden"}>
-            <SetModel create={increaseDB} showModel={modelShow}/>
+            <SetModalBank create={increaseDB} showModel={modelShow}/>
             </div>
 
             {modal && (<article className="flex flex-col items-center justify-center fixed inset-0 z-9999 overflow-y-auto bg-black/90 w-full shadow-white shadow-2xl">
@@ -237,7 +238,6 @@ function Home() {
                                     <select value={newWorkDay.project} onChange={(e) => { e.target.value == "Folga - Descontar do Banco" ? setNewWorkDay({ ...newWorkDay, project: e.target.value, timeEntry: "08:00", timeExit: "17:00" }) : setNewWorkDay({ ...newWorkDay, project: e.target.value }) }} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm'> <option selected value="" className="text-slate-950 font-semibold">Selecione uma opção</option><option className="text-slate-950 font-semibold">Folga - Descontar do Banco</option><option className="text-slate-950 font-semibold">Banco de Horas</option><option className="text-slate-950 font-semibold">Horas Extra</option></select>
                                 </div>
                             </div>
-                            {console.log(newWorkDay)}
                             <div className={newWorkDay.project != "Folga - Descontar do Banco" ? "w-[85%] lg:w-[25%]" : "w-[83%]"}>
                                 <label htmlFor="password" className='text-start font-semibold'>Data</label>
                                 <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
@@ -314,9 +314,17 @@ function Home() {
             </article>)}
 
             <div className="boder border-slate-500">
-                <article className="flex justify-between items-center px-3 lg:px-20 lg:pt-10 font-semibold text-text-[#b4c6f3]-800">
-                    <p className="text-3xl">Histórico</p>
-                    <button onClick={() => setModal("adicionar")} className="flex gap-1 items-center bg-text-[#b4c6f3]-800 text-white px-2 py-1.5 rounded-lg"> <span className="flex leading-none text-2xl font-normal p-0 shadow-2xl"> + </span> Adicionar</button>
+                <article className="flex flex-col justify-between items-center px-3 lg:px-20 lg:pt-10 font-semibold text-text-[#b4c6f3]-800 w-full">
+
+                    <div className="flex justify-between w-full">
+                        <p className="text-3xl">Histórico</p>
+                        <button onClick={() => setModal("adicionar")} className="flex gap-1 items-center bg-text-[#b4c6f3]-800 text-white px-2 py-1.5 rounded-lg"> <span className="flex leading-none text-2xl font-normal p-0 shadow-2xl"> + </span> Adicionar</button>
+                    </div>
+
+                    <div className="flex justify-start w-full">
+                    <p className="text-sm font-light"> Atualizado em {date}</p>
+                    </div>
+
                 </article>
 
 

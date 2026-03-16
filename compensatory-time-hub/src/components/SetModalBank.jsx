@@ -4,18 +4,11 @@ import { faClock } from "@fortawesome/free-solid-svg-icons";
 import { useState } from 'react';
 import { text } from '@fortawesome/fontawesome-svg-core';
 
-function SetModel(props) {
+function SetModalBank(props) {
 
     const [project, setProject] = useState("")
     const [hours, setHours] = useState(0)
     const [minutes, setMinutes] = useState(0)
-    const [text, setText] = useState()
-
-    const concatTime = (hours, minutes) => {
-        text = concacat(hours, ":", minutes)
-        console.log(text)
-        setText(text)
-    }
 
     return (
         <div className="flex flex-col items-center justify-start pt-20 fixed inset-0 z-9999 overflow-y-auto bg-black/90 w-full">
@@ -62,4 +55,4 @@ function SetModel(props) {
     )
 }
 
-export default SetModel;
+export default SetModalBank;
