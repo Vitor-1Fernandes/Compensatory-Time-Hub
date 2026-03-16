@@ -23,7 +23,7 @@ function CardTime(props) {
 
         if(time > 6*60){time = time - 60}
 
-        if(projeto != "Horas Extra"){dia != 5 ? time = 0 - 9*60 : time = 0 - 8*60}
+        if(projeto != "Horas Extra"){dia != 5 ? time = time - 9*60 : time = time - 8*60}
 
         if(projeto == "Folga - Descontar do Banco"){dia != 5 ? time = 0 - 9*60 : time = 0 - 8*60}
 
