@@ -56,7 +56,11 @@ function CardTime(props) {
                         payTotalHours = payTotalHours + time
                     }
                 }else{
-                    totalHours = totalHours + time
+                    if(array.days[project] == "Horas Negativas"){
+                        totalHours = totalHours - time
+                    }
+                    else{
+                    totalHours = totalHours + time}
                 }
                 
             }

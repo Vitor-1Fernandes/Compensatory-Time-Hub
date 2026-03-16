@@ -17,7 +17,7 @@ function DailyCard(props){
 
         if(projeto == "Folga - Descontar do Banco"){dia != 5 ? time = 0 - 9*60 : time = 0 - 8*60}
 
-        if(projeto == "Horas Negativas"){time = (Number(String((timeEntry.split(":")[0]*60))) + Number(String((timeEntry.split(":")[1]))))}
+        if(projeto == "Horas Negativas"){time = -((Number(String((timeEntry.split(":")[0]*60))) + Number(String((timeEntry.split(":")[1])))))}
 
         if(projeto == "Horas Positivas"){time = (Number(String((timeEntry.split(":")[0]*60))) + Number(String((timeEntry.split(":")[1]))))}
 
