@@ -11,7 +11,7 @@
     "headers": [
       {
         "key": "Content-Security-Policy",
-        "value": "default-src 'self'; connect-src 'self' https://banco-de-horas-qmy6.onrender.com;"
+        "value": "default-src 'self'; connect-src 'self' https://banco-de-horas-qmy6.onrender.com; style-src 'self' 'unsafe-inline'"
       }
     ]
   }
