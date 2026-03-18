@@ -11,7 +11,17 @@
     "headers": [
       {
         "key": "Content-Security-Policy",
-        "value": "default-src 'self'; connect-src 'self' https://banco-de-horas-qmy6.onrender.com; style-src 'self' 'unsafe-inline'"
+        "value": "default-src 'self'; connect-src 'self' https://banco-de-horas-qmy6.onrender.com; style-src 'self' 'unsafe-inline'; frame-ancestors 'self'"
+      },{
+        "key": "X-Content-Type-Options",
+        "value" : "nosniff"
+      },
+      {
+        "key": "Referrer-Policy",
+        "value": "strict-origin-when-cross-origin"
+      },{
+        "key": "Permissions-Policy",
+        "value": "camera=(), microphone=(), geolocation=(), payment=(), usb=()"
       }
     ]
   }
