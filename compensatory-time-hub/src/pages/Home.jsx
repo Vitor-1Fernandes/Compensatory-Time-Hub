@@ -241,43 +241,40 @@ function Home() {
                             <div className={newWorkDay.project != "Folga - Descontar do Banco" ? "w-[85%] lg:w-[25%]" : "w-[83%]"}>
                                 <label htmlFor="password" className='text-start font-semibold'>Data</label>
                                 <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
-                                    <FontAwesomeIcon icon={faCalendar} />
-                                    <input value={newWorkDay.date} type="date" onChange={(e) => setNewWorkDay({ ...newWorkDay, date: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                    <input value={newWorkDay.date} type="date" onChange={(e) => setNewWorkDay({ ...newWorkDay, date: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm [&::-webkit-calendar-picker-indicator]:invert' />
                                 </div>
                             </div>
 
 
                             {newWorkDay.project != "Folga - Descontar do Banco" ? (<><div className="hidden lg:flex  lg:justify-around  lg:items-center  lg:w-[55%]">
-                                <div className="w-[40%]">
+                                <div className="w-[41%]">
                                     <label htmlFor="password" className='text-start font-semibold'>Horário de entrada</label>
                                     <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
-                                        <FontAwesomeIcon icon={faClock} />
-                                        <input value={newWorkDay.timeEntry} type="time" onChange={(e) => { setNewWorkDay({ ...newWorkDay, timeEntry: e.target.value }) }} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                        <input value={newWorkDay.timeEntry} type="time" onChange={(e) => { setNewWorkDay({ ...newWorkDay, timeEntry: e.target.value }) }} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm [&::-webkit-calendar-picker-indicator]:invert' />
                                     </div>
                                 </div>
 
-                                <div className="w-[40%]">
+                                <div className="w-[41%]">
                                     <label htmlFor="password" className='text-start font-semibold'>Horário de saída</label>
                                     <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
-                                        <FontAwesomeIcon icon={faClock} />
-                                        <input type="time" value={newWorkDay.timeExit} onChange={(e) => { setNewWorkDay({ ...newWorkDay, timeExit: e.target.value }) }} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+                                        <input type="time" value={newWorkDay.timeExit} onChange={(e) => { setNewWorkDay({ ...newWorkDay, timeExit: e.target.value }) }} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm [&::-webkit-calendar-picker-indicator]:invert' />
                                     </div>
                                 </div>
                             </div>
                                 <div className="lg:hidden flex justify-around  items-center w-[95%]">
-                                    <div className="w-[40%]">
+                                    <div className="w-[41%]">
                                         <label htmlFor="password" className='text-start font-semibold'>Horário de entrada</label>
                                         <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
-                                            <FontAwesomeIcon icon={faClock} />
-                                            <input value={newWorkDay.timeEntry} type="time" onChange={(e) => setNewWorkDay({ ...newWorkDay, timeEntry: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+
+                                            <input value={newWorkDay.timeEntry} type="time" onChange={(e) => setNewWorkDay({ ...newWorkDay, timeEntry: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm [&::-webkit-calendar-picker-indicator]:invert' />
                                         </div>
                                     </div>
 
-                                    <div className="w-[40%]">
+                                    <div className="w-[41%]">
                                         <label htmlFor="password" className='text-start font-semibold'>Horário de saída</label>
                                         <div className='flex justify-start items-center px-2 border border-gray-400 focus-within:border-2 focus-within:border-text-[#b4c6f3]-800 rounded-md ease-in-out transition-colors'>
-                                            <FontAwesomeIcon icon={faClock} />
-                                            <input type="time" value={newWorkDay.timeExit} onChange={(e) => setNewWorkDay({ ...newWorkDay, timeExit: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm' />
+
+                                            <input type="time" value={newWorkDay.timeExit} onChange={(e) => setNewWorkDay({ ...newWorkDay, timeExit: e.target.value })} className='w-full outline-none focus:outline-1 bg-transparent rounded-md p-2 text-sm [&::-webkit-calendar-picker-indicator]:invert' />
                                         </div>
                                     </div></div></>) : <> </>}
 
