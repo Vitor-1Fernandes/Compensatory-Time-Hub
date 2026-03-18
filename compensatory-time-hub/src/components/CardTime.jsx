@@ -8,8 +8,6 @@ function CardTime(props) {
     let today = new Date()
     const months = ["Janeiro", "Fevereiro", "Março", "Abril", "Maio", "Junho", "Julho", "Agosto", "Setembro", "Outubro", "Novembro", "Dezembro"]
 
-    console.log(today.getDate())
-
     let primeiraQuinzena = true
 
     if(15 <= 13){primeiraQuinzena = true}else{primeiraQuinzena=false}
