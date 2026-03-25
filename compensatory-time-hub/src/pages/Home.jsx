@@ -327,7 +327,7 @@ function Home() {
 
                 <section className="px-1 lg:px-20 py-4">
 
-                    {workDays.length > 0 ? (workDays.sort((a, b) => new Date(a.date) - new Date(b.date)).map((day, index) => (
+                    {workDays.length > 0 ? (workDays.sort((b, a) => new Date(a.date) - new Date(b.date)).map((day, index) => (
                         <div key={index} className="my-5">
                             <DailyCard name={day.name} project={day.project} timeExit={day.timeExit} timeEntry={day.timeEntry} date={day.date} _id={day._id} delete={deleteCard} edit={editCard} />
                         </div>
