@@ -31,7 +31,7 @@ function DailyCard(props){
 
     const date = new Date(props.date)
     const time = returnTime(props.timeExit, props.timeEntry, props.project, date.getDay() + 1);
-    const showDate = new Date(date.getDate() + 1)
+    const showDate = new Date(date.getTime() + 86400000)
 
     let payTextTime = ""
     let textTime = ""
