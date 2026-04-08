@@ -10,7 +10,8 @@ function CardTime(props) {
 
     let primeiraQuinzena = true
 
-    if(15 <= 13){primeiraQuinzena = true}else{primeiraQuinzena=false}
+    if(today.getDate() <= 13){primeiraQuinzena = true}else{primeiraQuinzena=false}
+    console.log(today)
         
     let currentMonth = (primeiraQuinzena ? (today.getMonth() + 1) - 1 : (today.getMonth() + 1))
     let currentMonth2 = (primeiraQuinzena ? (today.getMonth() + 1) : (today.getMonth() + 1) + 1)
@@ -54,9 +55,13 @@ function CardTime(props) {
                 time = returnTime(array[days].timeExit, array[days].timeEntry, array[days].project, (date.getDay() + 1))                
 
                 if(array[days].project == "Horas Extra"){
+
+
                     if(((date.getMonth()+1) == currentMonth && (date.getDate()+1 > 13) && date.getFullYear() == today.getFullYear()) || ((date.getMonth()+1) == currentMonth2 && (date.getDate()+1) <= 13) && date.getFullYear() == today.getFullYear()){
                         payTotalHours = payTotalHours + time
                     }
+
+
                 }else{
                     if(array[days].project == "Horas Negativas"){
                         totalHours = totalHours - time
